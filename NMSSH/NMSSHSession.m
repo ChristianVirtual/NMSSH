@@ -17,6 +17,10 @@
 @property (nonatomic, strong) NMSFTP *sftp;
 @property (nonatomic, strong) NSNumber *port;
 @property (nonatomic, strong) NMSSHHostConfig *hostConfig;
+
+@property (nonatomic, strong) NSString *hostTunnel;
+@property (nonatomic, strong) NSNumber *portTunnel;
+
 @end
 
 @implementation NMSSHSession
@@ -40,6 +44,20 @@
     [session connect];
 
     return session;
+}
+
+
++ (instancetype)connectTunnelToHost:(NSString *)host port:(NSInteger)port withUsername:(NSString *)username viaHost:(NSString *)hostTunnel viaPort:(NSInteger)portTunnel
+{
+   NMSSHSession *session = [[NMSSHSession alloc] initWithHost:host
+                                                         port:port
+                                                  andUsername:username];
+   [session setHostTunnel:hostTunnel];
+   [session setPortTunnel:@(portTunnel)];
+
+   [session connect];
+
+   return session;
 }
 
 - (instancetype)initWithHost:(NSString *)host port:(NSInteger)port andUsername:(NSString *)username {

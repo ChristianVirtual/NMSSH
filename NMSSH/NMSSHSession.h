@@ -88,6 +88,20 @@ typedef NS_ENUM(NSInteger, NMSSHKnownHostStatus) {
 + (instancetype)connectToHost:(NSString *)host port:(NSInteger)port withUsername:(NSString *)username;
 
 /**
+ Shorthand method for initializing a NMSSHSession object and calling connect,
+ (explicitly setting a port number).
+ 
+ @param host The server hostname
+ @param port The port number
+ @param username A valid username the server will accept
+ @param hostTunnel The server hostname
+ @param portTunnel The port number
+ @returns NMSSHSession instance
+ */
++ (instancetype)connectTunnelToHost:(NSString *)host port:(NSInteger)port withUsername:(NSString *)username viaHost:(NSString *)hostTunnel viaPort:(NSInteger)portTunnel;
+
+
+/**
  Create and setup a new NMSSH instance.
 
  @param host The server hostname (a port number can be specified by appending
@@ -143,6 +157,12 @@ typedef NS_ENUM(NSInteger, NMSSHKnownHostStatus) {
 
 /** Username that will authenticate against the server. */
 @property (nonatomic, readonly) NSString *username;
+
+/** Full tunnel server hostname in the format `@"{hostname}"`. */
+@property (nonatomic, readonly) NSString *hostTunnel;
+
+/** The tunnel server port to connect to. */
+@property (nonatomic, readonly) NSNumber *portTunnel;
 
 /** Timeout for libssh2 blocking functions. */
 @property (nonatomic, strong) NSNumber *timeout;
